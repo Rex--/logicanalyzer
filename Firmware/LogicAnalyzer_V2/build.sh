@@ -15,14 +15,14 @@ BUILD_DIR="build"
 SOURCE_DIR="."
 
 # Clean build directory
-rm -rf $BUILD_DIR
+rm -rf ${BUILD_DIR:?}
 mkdir --parents $BUILD_DIR
 
 # Log build config to terminal
 echo "BOARD_TYPE: $BOARD_TYPE - TURBO_MODE: $TURBO_MODE"
 
 # Run CMake config command
-cmake -GNinja -DBOARD_TYPE=$BOARD_TYPE -DTURBO_MODE=$TURBO_MODE -B $BUILD_DIR -S $SOURCE_DIR
+cmake -GNinja -DBOARD_TYPE="$BOARD_TYPE" -DTURBO_MODE="$TURBO_MODE" -B $BUILD_DIR -S $SOURCE_DIR
 
 # Run CMake build command
 cmake --build $BUILD_DIR --config Release
