@@ -1,4 +1,14 @@
-# Generated Cmake Pico project file
+# == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==
+if(WIN32)
+set(USERHOME $ENV{USERPROFILE})
+else()
+set(USERHOME $ENV{HOME})
+endif()
+set(sdkVersion 2.1.0)
+set(toolchainVersion 13_3_Rel1)
+set(picotoolVersion 2.1.0)
+include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
+# ====================================================================================
 
 cmake_minimum_required(VERSION 3.13)
 
@@ -6,25 +16,12 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Initialise pico_sdk from installed location
-# (note this can come from environment, CMake cache etc)
-
-# == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==
-if(WIN32)
-    set(USERHOME $ENV{USERPROFILE})
-else()
-    set(USERHOME $ENV{HOME})
-endif()
-set(sdkVersion 2.0.0)
-set(toolchainVersion 13_2_Rel1)
-set(picotoolVersion 2.0.0)
-include(LogicAnalyzer_Build_Settings.cmake)
-include(${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake)
-
-
-# ====================================================================================
+# Check if BOARD_TYPE is defined before including config file. Allows easier auto builds
 if(NOT BOARD_TYPE)
-    message(FATAL_ERROR "Board not set, configure the build on LogicAnalyzer_Build_Settings.cmake")
+    include(LogicAnalyzer_Build_Settings.cmake)
+    if(NOT BOARD_TYPE)
+        message(FATAL_ERROR "Board not set, configure the build on LogicAnalyzer_Build_Settings.cmake")
+    endif()
 endif()
 
 if((BOARD_TYPE STREQUAL "BOARD_PICO_W") OR (BOARD_TYPE STREQUAL "BOARD_PICO_W_WIFI"))
