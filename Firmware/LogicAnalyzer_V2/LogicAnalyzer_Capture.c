@@ -67,6 +67,10 @@ static exception_handler_t oldSysTickHandler;
     const uint8_t pinMap[] = {2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,COMPLEX_TRIGGER_IN_PIN};
 #elif defined (BUILD_ZERO)
     const uint8_t pinMap[] = {0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,26,27,28,29,22,23,24,25,COMPLEX_TRIGGER_IN_PIN};
+#elif defined (BUILD_PICO_ANALYZER)
+    const uint8_t pinMap[] = {3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,29,COMPLEX_TRIGGER_IN_PIN};
+#elif defined (BUILD_PICO_ANALYZER2)
+    const uint8_t pinMap[] = {3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,27,28,29,COMPLEX_TRIGGER_IN_PIN};
 #endif
 
 //Main capture buffer, aligned at a dword boundary.
