@@ -67,7 +67,7 @@ namespace SharedDriver
 
                 var idVendor = File.ReadAllText(Path.Combine(dir, "idVendor")).Trim();
                 var idProduct = File.ReadAllText(Path.Combine(dir, "idProduct")).Trim();
-                string serial = File.ReadAllText(Path.Combine(dir, "serial")).Trim();
+                string serial = ""; // FIXME: Actually get the device serial. Causes FileNotFound error when file doesn't exist.
 
                 if (idVendor != vid || idProduct != pid)
                     continue;
