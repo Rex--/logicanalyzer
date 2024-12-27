@@ -65,11 +65,9 @@ namespace SharedDriver
                 if (!regDev.IsMatch(Path.GetFileName(devName)))
                     continue;
 
-                try
-                {
-                    var idVendor = File.ReadAllText(Path.Combine(dir, "idVendor")).Trim();
-                    var idProduct = File.ReadAllText(Path.Combine(dir, "idProduct")).Trim();
-                    string serial = File.ReadAllText(Path.Combine(dir, "serial")).Trim();
+                var idVendor = File.ReadAllText(Path.Combine(dir, "idVendor")).Trim();
+                var idProduct = File.ReadAllText(Path.Combine(dir, "idProduct")).Trim();
+                string serial = ""; // FIXME: Actually get the device serial. Causes FileNotFound error when file doesn't exist.
 
                     if (idVendor != vid || idProduct != pid)
                         continue;
@@ -83,8 +81,6 @@ namespace SharedDriver
                     {
                         devices.Add(new DetectedDevice { PortName = "/dev/" + Path.GetFileName(tty), DevicePath = $"/sys/bus/usb/devices/{devName}:1.0", VID = vid, PID = pid, SerialNumber = serial, ParentId = devName });
                     }
-                }
-                catch { continue; }
             }
 
             return devices.ToArray();
