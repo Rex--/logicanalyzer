@@ -65,9 +65,19 @@ namespace SharedDriver
                 if (!regDev.IsMatch(Path.GetFileName(devName)))
                     continue;
 
-                var idVendor = File.ReadAllText(Path.Combine(dir, "idVendor")).Trim();
-                var idProduct = File.ReadAllText(Path.Combine(dir, "idProduct")).Trim();
-                string serial = ""; // FIXME: Actually get the device serial. Causes FileNotFound error when file doesn't exist.
+                string idVendor;
+                string idProduct;
+                string serial;
+                try
+                {
+                    idVendor = File.ReadAllText(Path.Combine(dir, "idVendor")).Trim();
+                    idProduct = File.ReadAllText(Path.Combine(dir, "idProduct")).Trim();
+                    serial = File.ReadAllText(Path.Combine(dir, "serial")).Trim();
+                }
+                catch (Exception e)
+                {
+                    continue;
+                }
 
                 if (idVendor != vid || idProduct != pid)
                     continue;

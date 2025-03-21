@@ -100,10 +100,14 @@ namespace SharedDriver
 
             baseStream.Write(pack.Serialize());
 
+            Console.WriteLine("Sending hello");
             baseStream.ReadTimeout = 10000;
             version = readResponse.ReadLine();
 
+
+            Console.WriteLine("Getting Version");
             var devVersion = VersionValidator.GetVersion(version);
+
 
             if (!devVersion.IsValid)
             {

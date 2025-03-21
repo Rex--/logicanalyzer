@@ -1077,7 +1077,7 @@ namespace LogicAnalyzer
                 }
                 catch(Exception ex)
                 {
-                    await this.ShowError("Error", $"Cannot connect to device: ({ex.Message}).");
+                    await this.ShowError("Error - BtnOpenClose", $"Cannot connect to device: ({ex.Message}).");
                     return;
                 }
 
@@ -1121,11 +1121,12 @@ namespace LogicAnalyzer
         {
             try
             {
+                Console.WriteLine(port);
                 return new LogicAnalyzerDriver(port);
             }
             catch (Exception ex)
             {
-                await this.ShowError("Error", $"Cannot connect to device: ({ex.Message}).");
+                await this.ShowError("Error - Serial", $"Cannot connect to device: ({ex.Message}).");
                 return null;
             }
         }
