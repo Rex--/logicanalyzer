@@ -2,7 +2,7 @@
 #ifndef __ANALYZER_CAPTURE__
 #define __ANALYZER_CAPTURE__
 
-#if defined(BUILD_PICO_2)
+#if defined(BUILD_PICO_2) || defined(BUILD_PICO_ANALYZER2)
 #include <RP2350.h>
 #endif
 
