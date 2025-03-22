@@ -18,8 +18,10 @@
 #include "pico/unique_id.h"
 #include "pico/bootrom.h"
 
-#ifdef WS2812_LED
+#if defined (WS2812_LED)
     #include "LogicAnalyzer_W2812.h"
+#elif defined (WS2812B_LED)
+    #include "LogicAnalyzer_W2812B.h"
 #endif
 
 #if defined (CYGW_LED) || defined(USE_CYGW_WIFI)
@@ -79,6 +81,14 @@
     #define INIT_LED() init_rgb()
     #define LED_ON() send_rgb(0,32,0)
     #define LED_OFF() send_rgb(0,0,32)
+
+#elif defined (WS2812B_LED)
+    #define INIT_LED()  init_led();
+    #define LED_ON()    led_on();
+    #define LED_OFF()    led_off();
+    #define LED_RED()   led_set(255,0,0);
+    #define LED_GREEN()   led_set(0,255,0);
+    #define LED_BLUE()   led_set(0,0,255);
 #endif
 
 //Buffer used to store received data
@@ -262,6 +272,9 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                             sprintf(msg, "CHANNELS:%d\n", MAX_CHANNELS);
                             sendResponse(msg, fromWiFi);
                         }
+                        #if defined (WS2812B_LED)
+                            LED_GREEN();
+                        #endif
                         break;
 
                     case 1: //Capture request
@@ -385,6 +398,12 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         sendResponse("BLINKOFF\n", fromWiFi);
                         LED_ON();
                         break;
+                    
+                    case 7:
+                        // Disconnection
+                        #if defined (WS2812B_LED)
+                            LED_RED();
+                        #endif
 
                     default:
 
@@ -599,7 +618,11 @@ int main()
 
     //Configure led
     INIT_LED();
-    LED_ON();
+    #if defined (WS2812B_LED)
+        LED_RED();
+    #else
+        LED_ON();
+    #endif
 
     while(1)
     {
@@ -727,10 +750,15 @@ int main()
                 #endif
                 //Done!
                 capturing = false;
+                #if defined (WS2812B_LED)
+                    LED_GREEN();
+                #endif
             }
             else
             {
-                LED_OFF();
+                #if !defined (WS2812B_LED)
+                    LED_OFF();
+                #endif
                 sleep_ms(1000);
 
                 //Check for cancel request
@@ -739,11 +767,19 @@ int main()
                     //Stop capture
                     StopCapture();
                     capturing = false;
-                    LED_ON();
+                    #if defined (WS2812B_LED)
+                        LED_GREEN();
+                    #else
+                        LED_ON();
+                    #endif
                 }
                 else
                 {
-                    LED_ON();
+                    #if defined (WS2812B_LED)
+                        LED_BLUE();
+                    #else
+                        LED_ON();
+                    #endif
                     #ifdef SUPPORTS_COMPLEX_TRIGGER
                     check_fast_interrupt();
                     #endif

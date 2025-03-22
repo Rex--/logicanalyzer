@@ -64,7 +64,7 @@ pico_sdk_init()
 # Add executable. Default name is the project name, version 0.1
 
 FILE(GLOB CSources *.c)
-ADD_EXECUTABLE(LogicAnalyzer ${CSources})
+ADD_EXECUTABLE(LogicAnalyzer ${CSources} cycle_delay.S)
 
 # Enable ram-only build for the base pico and zero, increases timming precission
 if(NOT DEBUG_BUILD)

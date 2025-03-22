@@ -782,6 +782,10 @@ namespace SharedDriver
         {
             try
             {
+                OutputPacket pack = new OutputPacket();
+                pack.AddByte(7);
+                baseStream.Write(pack.Serialize());
+
                 sp.Close();
                 sp.Dispose();
             }
