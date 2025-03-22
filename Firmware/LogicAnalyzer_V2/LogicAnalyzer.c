@@ -404,6 +404,7 @@ void processData(uint8_t* data, uint length, bool fromWiFi)
                         #if defined (WS2812B_LED)
                             LED_RED();
                         #endif
+                        break;
 
                     default:
 
